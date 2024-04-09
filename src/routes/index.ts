@@ -1,8 +1,8 @@
-import express from 'express';
-import UserRouter from './user.routes';
+import express from "express";
+import authRouter from "./auth.routes";
 
 const router = express.Router();
 
-router.use("/users", UserRouter);
+router.use("/users/auth/google", authRouter);
 
 export default router;

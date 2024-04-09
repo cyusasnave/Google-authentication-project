@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./app"));
 const database_postgress_1 = __importDefault(require("./services/database.postgress"));
-const APPLICATION_PORT = process.env.PORT;
+const constants_1 = require("./helpers/constants");
 const startServer = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, database_postgress_1.default)();
-    app_1.default.listen(APPLICATION_PORT, () => console.info(`Server running on port ${APPLICATION_PORT}!`));
+    app_1.default.listen(constants_1.APPLICATION_PORT, () => console.info(`Server running on port ${constants_1.APPLICATION_PORT}!`));
 });
 startServer();

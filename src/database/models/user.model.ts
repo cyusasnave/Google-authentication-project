@@ -1,58 +1,62 @@
-import { DataTypes, Model, UUIDV4 } from 'sequelize';
-import db from '../config/config';
+import { DataTypes, Model, UUIDV4 } from "sequelize";
+import db from "../config/config";
 
-interface UserModelAttributes {
-    id: string,
-    image: string,
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string,
-    confirmPassword: string,
-    isVerified: boolean
+export interface GoogleUserModelAttributes {
+  id: string;
+  googleId: string;
+  image: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  isVerified: boolean;
+  role: string;
 }
 
+export class GoogleUserModel extends Model<GoogleUserModelAttributes> {}
 
-export class UserModel extends Model<UserModelAttributes> {}
-
-UserModel.init({
+GoogleUserModel.init(
+  {
     id: {
-        type: DataTypes.UUID,
-        defaultValue: UUIDV4,
-        primaryKey: true,
-        allowNull: false
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
+      primaryKey: true,
+      allowNull: false,
+    },
+    googleId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
     image: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     firstName: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     lastName: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    confirmPassword: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
     isVerified: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false,
-        allowNull: false
-    }
-}, {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.STRING,
+      defaultValue: "User",
+      allowNull: false,
+    },
+  },
+  {
     sequelize: db,
-    tableName: "users"
-})
+    tableName: "Users",
+  }
+);
