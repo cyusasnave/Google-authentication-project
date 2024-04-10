@@ -2,6 +2,8 @@ import express from "express";
 import passport = require("passport");
 import authController from "../controllers/auth.controller";
 import authCheck from "../middlewares/authCheck";
+import fileUpload from "../middlewares/multer";
+import validations from "../middlewares/validations";
 
 const authRouter = express.Router();
 
@@ -24,6 +26,6 @@ authRouter.get(
     scope: ["profile", "email"],
   })
 );
-authRouter.patch('/:id',fileUpload.single('image'),Validation.isValidUser,authController.updateUser)
+authRouter.patch('/:id',fileUpload.single('image'),validations.isValidUser,authController.updateUser)
 
 export default authRouter;
