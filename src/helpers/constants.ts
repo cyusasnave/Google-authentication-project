@@ -10,3 +10,8 @@ export const JWT_KEY = process.env.JWT_SECRET_KEY as string;
 export const DB_NAME = process.env.DB_NAME as string;
 export const DB_USER = process.env.DB_USER as string;
 export const DB_PASS = process.env.DB_PASSWORD;
+
+export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+export const CLOUDINARY_FOLDER = process.env.CLOUDINARY_FOLDER as string;

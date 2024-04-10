@@ -2,6 +2,7 @@ import { Request, Response, response } from "express";
 import { GoogleUserModel } from "../database/models/user.model";
 import { GoogleUserModelAttributes } from "../database/models/user.model";
 import { generateAccessToken } from "../helpers/security.helpers";
+import uploadSingle from "../middlewares/upload";
 
 const handleGoogleAuth = async (req: Request, res: Response) => {
   try {
@@ -30,5 +31,32 @@ const handleGoogleAuth = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong", error: error });
   }
 };
+
+// const updateUser = async (req:Request, res:Response) => {
+//   try {
+
+//     // getting the image
+//     let image;
+//     let uploadedImage;
+//     if (req.file) {
+//       image = req.file
+//       const uploadImage = await uploadSingle(image.path);
+
+//       if ("error" in uploadImage) {
+//         console.log(uploadImage);
+//         return res.status(500).json({
+//           message: "Error uploading image",
+//           error: uploadImage.error,
+//         });
+//       }
+
+//       uploadedImage = uploadImage?.secure_url;
+//     }
+
+//     // then put the uploadedImage secure url in the updated image profile
+//   } catch (error) {
+
+//   }
+// }
 
 export default { handleGoogleAuth };
