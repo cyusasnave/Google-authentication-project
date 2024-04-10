@@ -1,14 +1,32 @@
 import { Request, Response, NextFunction } from "express";
-import { GoogleUserModelAttributes } from "../database/models/user.model";
+import {
+  GoogleUserModel,
+  GoogleUserModelAttributes,
+} from "../database/models/user.model";
+import { FORBIDDEN, HttpResponse, UNAUTHORIZED } from "../responses";
 
-const authCheck = (req: Request, res: Response, next: NextFunction) => {
+const authCheck = async (req: Request, res: Response, next: NextFunction) => {
   const userProfileFromRequest = req.user as GoogleUserModelAttributes;
 
   if (!userProfileFromRequest) {
     return res
       .status(401)
-      .json({ status: "401", message: "please login to continue." });
+      .json(HttpResponse(UNAUTHORIZED, "Please logIn to continue!"));
   }
+
+  const UserExist = await GoogleUserModel.findOne({
+    where: { googleId: userProfileFromRequest.googleId },
+  });
+
+  const userData = UserExist?.dataValues;
+  const isVerified = userData?.isVerified;
+
+  if (isVerified == false) {
+    return res
+      .status(403)
+      .json(HttpResponse(FORBIDDEN, "Please verify your email to continue!"));
+  }
+
   next();
 };
 

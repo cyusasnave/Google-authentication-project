@@ -4,6 +4,7 @@ import authController from "../controllers/auth.controller";
 import authCheck from "../middlewares/authCheck";
 import fileUpload from "../middlewares/multer";
 import validations from "../middlewares/validations";
+import authentication from "../middlewares/authentication";
 
 const authRouter = express.Router();
 
@@ -18,6 +19,7 @@ authRouter.get(
   passport.authenticate("google", { failureRedirect: "/login" }),
   authController.handleGoogleAuth
 );
+authRouter.get("/verifyEmail", authController.verifyEmail);
 authRouter.get("/dashboard", authCheck, authController.userDashboard);
 authRouter.get("/logout", authController.userLogout);
 authRouter.get(
@@ -26,6 +28,12 @@ authRouter.get(
     scope: ["profile", "email"],
   })
 );
-authRouter.patch('/:id',fileUpload.single('image'),validations.isValidUser,authController.updateUser)
+authRouter.patch(
+  "/:id",
+  authentication.isAdmin,
+  fileUpload.single("image"),
+  validations.isValidUser,
+  authController.updateUser
+);
 
 export default authRouter;

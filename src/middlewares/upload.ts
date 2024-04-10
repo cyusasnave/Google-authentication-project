@@ -9,7 +9,7 @@ const uploadSingle = async (image: string) => {
     return result;
   } catch (error) {
     const err = (error as Error).message;
-    return { error: err }
+    return { error: err };
   }
 };
 

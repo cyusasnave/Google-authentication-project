@@ -15,3 +15,7 @@ export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
 export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
 export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 export const CLOUDINARY_FOLDER = process.env.CLOUDINARY_FOLDER as string;
+
+export const ADMINISTRATOR_EMAIL = process.env.ADMINISTRATOR_EMAIL as string;
+export const ADMINISTRATOR_NAME = process.env.ADMINISTRATOR_NAME as string;
+export const NODEMAILER_PASSWORD = process.env.NODEMAILER_PASSWORD as string;
