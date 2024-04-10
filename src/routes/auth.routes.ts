@@ -24,5 +24,6 @@ authRouter.get(
     scope: ["profile", "email"],
   })
 );
+authRouter.patch('/:id',fileUpload.single('image'),Validation.isValidUser,authController.updateUser)
 
 export default authRouter;
