@@ -4,6 +4,11 @@ import validateUser from "../validations/user.validations";
 const isValidUser = (req: Request, res: Response, next: NextFunction) => {
   let image;
 
+  if(req.body.email){
+    return res.status(400).json({
+      message: "User email can't be changed"
+    });
+  }
   if (req.file) {
     image = req.file.path;
   }

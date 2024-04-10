@@ -32,31 +32,74 @@ const handleGoogleAuth = async (req: Request, res: Response) => {
   }
 };
 
-// const updateUser = async (req:Request, res:Response) => {
-//   try {
+const updateUser = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  try {
+    let image;
+    let uploadedImage;
 
-//     // getting the image
-//     let image;
-//     let uploadedImage;
-//     if (req.file) {
-//       image = req.file
-//       const uploadImage = await uploadSingle(image.path);
+    if (req.file) {
+      image = req.file;
+      const uploadImage = await uploadSingle(image.path);
 
-//       if ("error" in uploadImage) {
-//         console.log(uploadImage);
-//         return res.status(500).json({
-//           message: "Error uploading image",
-//           error: uploadImage.error,
-//         });
-//       }
+      if ("error" in uploadImage) {
+        return res.status(500).json({
+          message: "Error uploading image",
+          error: uploadImage.error,
+        });
+      }
+      uploadedImage = uploadImage?.secure_url;
 
-//       uploadedImage = uploadImage?.secure_url;
-//     }
+      const updateUser = {
+        image: uploadedImage,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+      };
 
-//     // then put the uploadedImage secure url in the updated image profile
-//   } catch (error) {
+      const result = await GoogleUserModel.update(updateUser, {
+        where: {
+          id: userId,
+        },
+      });
+      const updatedUser = await GoogleUserModel.findOne({
+        where: {
+          id: userId,
+        },
+      });
 
-//   }
-// }
+      return res.status(200).json({
+        result: updatedUser,
+        message: "user updated successfully",
+        status: 200,
+      });
+    } else {
+      const updateUser = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+      };
 
-export default { handleGoogleAuth };
+      const result = await GoogleUserModel.update(updateUser, {
+        where: {
+          id: userId,
+        },
+      });
+      const updatedUser = await GoogleUserModel.findOne({
+        where: {
+          id: userId,
+        },
+      });
+      return res.status(200).json({
+        result: updatedUser,
+        message: "user updated successfully",
+        status: 200,
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+      error: error,
+    });
+  }
+};
+
+export default { handleGoogleAuth, updateUser };
