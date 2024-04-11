@@ -247,10 +247,42 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await GoogleUserModel.findAll();
+
+    res.status(200).json({ message: "All users", users: users });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong", error: error });
+  }
+};
+
+const getUserById = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  if (!userId) {
+    return res.status(400).json({ message: "User ID is required" });
+  }
+  try {
+    const user = await GoogleUserModel.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User fetched successfuly", user: user });
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong", error: error });
+  }
+};
+  
 export default {
   handleGoogleAuth,
   verifyEmail,
   updateUser,
   userDashboard,
   userLogout,
+  getAllUsers, 
+  getUserById 
 };

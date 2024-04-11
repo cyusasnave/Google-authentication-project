@@ -28,6 +28,8 @@ authRouter.get(
     scope: ["profile", "email"],
   })
 );
+authRouter.get("/users", authController.getAllUsers);
+authRouter.get("/users/:id", authController.getUserById);
 authRouter.patch(
   "/:id",
   authentication.isAdmin,
