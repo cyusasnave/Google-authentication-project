@@ -34,4 +34,25 @@ const handleGoogleAuth = (req, res) => __awaiter(void 0, void 0, void 0, functio
         res.status(500).json({ message: "Something went wrong", error: error });
     }
 });
+// const updateUser = async (req:Request, res:Response) => {
+//   try {
+//     // getting the image
+//     let image;
+//     let uploadedImage;
+//     if (req.file) {
+//       image = req.file
+//       const uploadImage = await uploadSingle(image.path);
+//       if ("error" in uploadImage) {
+//         console.log(uploadImage);
+//         return res.status(500).json({
+//           message: "Error uploading image",
+//           error: uploadImage.error,
+//         });
+//       }
+//       uploadedImage = uploadImage?.secure_url;
+//     }
+//     // then put the uploadedImage secure url in the updated image profile
+//   } catch (error) {
+//   }
+// }
 exports.default = { handleGoogleAuth };
