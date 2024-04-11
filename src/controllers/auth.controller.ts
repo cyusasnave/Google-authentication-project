@@ -54,7 +54,7 @@ const handleGoogleAuth = async (req: Request, res: Response) => {
           html: `
           <div style="padding:20px">
             <p>Hello ${firstName} ${lastName}, Thank you for joining our platform! Please confirm this email.</p>
-            <a href="http://${req.headers.host}/users/auth/google/verifyEmail?googleId=${googleId}" style="background-color:MediumSeaGreen;color:white;padding:6px 20px;border:none;border-radius:5px;text-decoration:none" target="_blank" data-saferedirecturl="https://www.google.com/url?q=http://localhost:5500/users/auth/google/verifyEmail?googleId%3D105117107322113231983&amp;source=gmail&amp;ust=1712874515710000&amp;usg=AOvVaw0zSYU4s2rqbuV6B8t3oYW3">Confirm</a>
+            <a href="http://${req.headers.host}/users/auth/google/verifyEmail?googleId=${googleId}" style="background-color:MediumSeaGreen;color:white;padding:6px 20px;border:none;border-radius:5px;text-decoration:none" target="_blank">Confirm</a>
           </div>`,
         });
 

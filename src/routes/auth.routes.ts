@@ -1,5 +1,5 @@
 import express from "express";
-import passport = require("passport");
+import passport from "../middlewares/passport";
 import authController from "../controllers/auth.controller";
 import authCheck from "../middlewares/authCheck";
 import fileUpload from "../middlewares/multer";
