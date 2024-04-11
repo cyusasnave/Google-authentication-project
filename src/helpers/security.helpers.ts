@@ -1,6 +1,7 @@
 import jwt, { JsonWebTokenError } from "jsonwebtoken";
 import { JWT_KEY } from "./constants";
 import { Response } from "express";
+import { HttpResponse, UNAUTHORIZED } from "../responses";
 
 interface DecodedToken {
   expiresIn?: number;
@@ -22,10 +23,9 @@ export const generateAccessToken = (userData: any) => {
 
 export const verifyAccessToken = (token: string, res: Response) => {
   if (!token || token == null) {
-    return res.status(401).json({
-      status: "Unauthorized",
-      message: "Please login to continue!",
-    });
+    return res
+      .status(401)
+      .json(HttpResponse(UNAUTHORIZED, "Please login to continue!"));
   }
   return jwt.verify(String(token), JWT_KEY);
 };

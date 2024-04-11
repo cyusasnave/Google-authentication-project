@@ -11,7 +11,7 @@ const userValidation = Joi.object({
       "string.empty": "Name field can't be empty!",
       "string.min": "Name must be a least 2 character long!",
       "string.pattern.base":
-        "Name can't include numbers and special characters!",
+        "First name can't include numbers and special characters!",
     }),
   lastName: Joi.string()
     .min(2)
@@ -20,9 +20,9 @@ const userValidation = Joi.object({
       "string.empty": "Name field can't be empty!",
       "string.min": "Name must be a least 2 character long!",
       "string.pattern.base":
-        "Name can't include numbers and special characters!",
-    })
-});
+        "Last name can't include numbers and special characters!",
+    }),
+}).options({ allowUnknown: false });
 
 const validateUser = <T>(data: T) => {
   return userValidation.validate(data);
