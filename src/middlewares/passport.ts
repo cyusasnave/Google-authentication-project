@@ -11,7 +11,9 @@ import {
 const GoogleStrategy = GooglePassport.Strategy;
 
 const userProfile = (profile: any) => {
+
   const { id, name, emails, photos } = profile;
+
   const user: GoogleUserModelAttributes = {
     id: UUIDV4(),
     googleId: id,
@@ -22,7 +24,9 @@ const userProfile = (profile: any) => {
     isVerified: false,
     role: "User",
   };
+
   return user;
+  
 };
 
 passport.serializeUser((id: any, done) => {
