@@ -17,6 +17,14 @@ authRouter
     passport.authenticate("google", { failureRedirect: "/" }),
     authController.handleGoogleAuth
   );
-  authRouter.patch('/:id',fileUpload.single('image'),Validation.isValidUser,authController.updateUser)
+authRouter.patch(
+  "/:id",
+  fileUpload.single("image"),
+  Validation.isValidUser,
+  authController.updateUser
+);
+
+authRouter.get("/users", authController.getAllUsers);
+authRouter.get("/users/:id", authController.getUserById);
 
 export default authRouter;
