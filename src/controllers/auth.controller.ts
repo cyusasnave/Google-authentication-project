@@ -5,11 +5,13 @@ import { generateAccessToken } from "../helpers/security.helpers";
 import uploadSingle from "../middlewares/upload";
 import { senderEmail } from "../helpers/nodemailer";
 import {
+  BAD_REQUEST,
   CREATED,
   EmailMessage,
   FORBIDDEN,
   HttpResponse,
   INTERNAL_SERVER_ERROR,
+  NOT_FOUND,
   SUCCESS,
 } from "../responses";
 
@@ -53,8 +55,36 @@ const handleGoogleAuth = async (req: Request, res: Response) => {
           subject: "Account Created",
           html: `
           <div style="padding:20px">
-            <p>Hello ${firstName} ${lastName}, Thank you for joining our platform! Please confirm this email.</p>
-            <a href="http://${req.headers.host}/users/auth/google/verifyEmail?googleId=${googleId}" style="background-color:MediumSeaGreen;color:white;padding:6px 20px;border:none;border-radius:5px;text-decoration:none" target="_blank">Confirm</a>
+            <p>
+              Hello ${firstName} ${lastName}, <br /><br />
+              Thank you for creating an account with us! 🎉 To complete the process,
+              <br />please click the link below to confirm and finish setting up your
+              account:
+            </p>
+            <br />
+            <a
+              href="http://${req.headers.host}/api/auth/google/verifyEmail?googleId=${googleId}"
+              style="
+                background-color: MediumSeaGreen;
+                color: white;
+                padding: 6px 20px;
+                border: none;
+                border-radius: 5px;
+                text-decoration: none;
+              "
+              target="_blank"
+              >
+                Confirm
+              </a
+            >
+            <br />
+            <br />
+            <p>
+              If you have any questions or need assistance, feel free to reply to this
+              email. <br />We’re here to help! 🙌 <br />
+              <br />
+              Best regards!!
+            </p>
           </div>`,
         });
 
@@ -112,7 +142,13 @@ const userDashboard = async (req: Request, res: Response) => {
   res
     .status(200)
     .send(
-      `<h1>Welcome to Dashboard ${userProfile.firstName} ${userProfile.lastName} 🎉</h1> <br> <a href="/users/auth/google/logout">Logout</a>`
+      `
+        <h1>Welcome to Dashboard ${userProfile.firstName} ${userProfile.lastName} 🎉</h1> 
+        <br> 
+        <a href="/api/auth/google/logout">
+          Logout
+        </a>
+      `
     );
 };
 
@@ -247,10 +283,72 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await GoogleUserModel.findAll();
+
+    res.status(200).json(HttpResponse(SUCCESS, "Users fetched successfully!"));
+  } catch (error) {
+    res.status(500).json({
+      ...HttpResponse(INTERNAL_SERVER_ERROR, "Something went wrong!"),
+      error: error,
+    });
+  }
+};
+
+const getUserById = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  if (!userId) {
+    return res
+      .status(400)
+      .json(HttpResponse(BAD_REQUEST, "User id not specified!"));
+  }
+  try {
+    const user = await GoogleUserModel.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      return res.status(404).json(HttpResponse(NOT_FOUND, "User not found!"));
+    }
+    res.status(200).json({
+      ...HttpResponse(SUCCESS, "User fetched successfully!"),
+      user: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ...HttpResponse(INTERNAL_SERVER_ERROR, "Something went wrong!"),
+      error: error,
+    });
+  }
+};
+
+const deleteUser = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  if (!userId) {
+    return res
+      .status(400)
+      .json(HttpResponse(BAD_REQUEST, "User id not specified!"));
+  }
+  try {
+    await GoogleUserModel.destroy({ where: { id: userId } });
+    res.status(200).json(HttpResponse(SUCCESS, "User deleted successfully!"));
+  } catch (error) {
+    res.status(500).json({
+      ...HttpResponse(INTERNAL_SERVER_ERROR, "Something went wrong!"),
+      error: error,
+    });
+  }
+};
+
 export default {
   handleGoogleAuth,
   verifyEmail,
   updateUser,
   userDashboard,
   userLogout,
+  getAllUsers,
+  getUserById,
+  deleteUser,
 };

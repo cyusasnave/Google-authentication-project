@@ -12,7 +12,6 @@ export interface GoogleUserModelAttributes {
   role: string;
 }
 
-
 export class GoogleUserModel extends Model<GoogleUserModelAttributes> {}
 
 GoogleUserModel.init(
@@ -61,4 +60,3 @@ GoogleUserModel.init(
     tableName: "Users",
   }
 );
-

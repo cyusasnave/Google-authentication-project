@@ -3,7 +3,7 @@ import path from "path";
 
 const fileUpload = multer({
   storage: multer.diskStorage({}),
-  fileFilter: (req, file, callback) => {
+  fileFilter: (_req, file, callback) => {
     let ext = path.extname(file.originalname);
 
     if (

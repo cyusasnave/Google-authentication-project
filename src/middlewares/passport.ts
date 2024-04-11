@@ -11,7 +11,6 @@ import {
 const GoogleStrategy = GooglePassport.Strategy;
 
 const userProfile = (profile: any) => {
-
   const { id, name, emails, photos } = profile;
 
   const user: GoogleUserModelAttributes = {
@@ -26,15 +25,14 @@ const userProfile = (profile: any) => {
   };
 
   return user;
-  
 };
 
-passport.serializeUser((id: any, done) => {
-  done(null, id);
+passport.serializeUser((user: any, done) => {
+  done(null, user);
 });
 
-passport.deserializeUser((id: any, done) => {
-  done(null, id);
+passport.deserializeUser((user: any, done) => {
+  done(null, user);
 });
 
 passport.use(
