@@ -7,7 +7,7 @@ const multer_1 = __importDefault(require("multer"));
 const path_1 = __importDefault(require("path"));
 const fileUpload = (0, multer_1.default)({
     storage: multer_1.default.diskStorage({}),
-    fileFilter: (req, file, callback) => {
+    fileFilter: (_req, file, callback) => {
         let ext = path_1.default.extname(file.originalname);
         if (ext !== ".png" &&
             ext !== ".jpg" &&

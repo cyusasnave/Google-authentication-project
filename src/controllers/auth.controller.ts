@@ -15,6 +15,7 @@ import {
   SUCCESS,
 } from "../responses";
 
+// REGISTER AND LOGIN
 const handleGoogleAuth = async (req: Request, res: Response) => {
   try {
     if (req.user) {
@@ -105,6 +106,7 @@ const handleGoogleAuth = async (req: Request, res: Response) => {
   }
 };
 
+// EMAIL VERIFICATION HANDLING
 const verifyEmail = async (req: Request, res: Response) => {
   try {
     const googleId = req.query.googleId as unknown as string;
@@ -137,26 +139,73 @@ const verifyEmail = async (req: Request, res: Response) => {
   }
 };
 
+// USER DASHBOARD
 const userDashboard = async (req: Request, res: Response) => {
   const userProfile = req.user as GoogleUserModelAttributes;
-  res
-    .status(200)
-    .send(
-      `
+  res.status(200).send(
+    `
         <h1>Welcome to Dashboard ${userProfile.firstName} ${userProfile.lastName} 🎉</h1> 
         <br> 
         <a href="/api/auth/google/logout">
           Logout
         </a>
       `
-    );
+  );
 };
 
+// LOGOUT LOGIC
 const userLogout = async (req: Request, res: Response, done: any) => {
   req.logout(done);
   res.redirect("/");
 };
 
+// GET ALL USERS LOGIC
+const getAllUsers = async (req: Request, res: Response) => {
+  try {
+    const users = await GoogleUserModel.findAll();
+
+    res.status(200).json({
+      ...HttpResponse(SUCCESS, "Users fetched successfully!"),
+      users: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ...HttpResponse(INTERNAL_SERVER_ERROR, "Something went wrong!"),
+      error: error,
+    });
+  }
+};
+
+// GET USER BY ID LOGIC
+const getUserById = async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  if (!userId) {
+    return res
+      .status(400)
+      .json(HttpResponse(BAD_REQUEST, "User id not specified!"));
+  }
+  try {
+    const user = await GoogleUserModel.findOne({
+      where: {
+        id: userId,
+      },
+    });
+    if (!user) {
+      return res.status(404).json(HttpResponse(NOT_FOUND, "User not found!"));
+    }
+    res.status(200).json({
+      ...HttpResponse(SUCCESS, "User fetched successfully!"),
+      user: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      ...HttpResponse(INTERNAL_SERVER_ERROR, "Something went wrong!"),
+      error: error,
+    });
+  }
+};
+
+// UPDATE USER BY ID LOGIC
 const updateUser = async (req: Request, res: Response) => {
   const userId = req.params.id;
 
@@ -283,47 +332,7 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
-const getAllUsers = async (req: Request, res: Response) => {
-  try {
-    const users = await GoogleUserModel.findAll();
-
-    res.status(200).json(HttpResponse(SUCCESS, "Users fetched successfully!"));
-  } catch (error) {
-    res.status(500).json({
-      ...HttpResponse(INTERNAL_SERVER_ERROR, "Something went wrong!"),
-      error: error,
-    });
-  }
-};
-
-const getUserById = async (req: Request, res: Response) => {
-  const userId = req.params.id;
-  if (!userId) {
-    return res
-      .status(400)
-      .json(HttpResponse(BAD_REQUEST, "User id not specified!"));
-  }
-  try {
-    const user = await GoogleUserModel.findOne({
-      where: {
-        id: userId,
-      },
-    });
-    if (!user) {
-      return res.status(404).json(HttpResponse(NOT_FOUND, "User not found!"));
-    }
-    res.status(200).json({
-      ...HttpResponse(SUCCESS, "User fetched successfully!"),
-      user: user,
-    });
-  } catch (error) {
-    res.status(500).json({
-      ...HttpResponse(INTERNAL_SERVER_ERROR, "Something went wrong!"),
-      error: error,
-    });
-  }
-};
-
+// DELETE USER BY ID LOGIC
 const deleteUser = async (req: Request, res: Response) => {
   const userId = req.params.id;
   if (!userId) {

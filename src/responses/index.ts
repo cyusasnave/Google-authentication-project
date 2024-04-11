@@ -5,6 +5,8 @@ interface emailParms {
   returnUser: any;
   returnUpdatedUser: any;
 }
+
+// HTTP RESPONSE OBJECT
 export const HttpResponse = (status: string, message: string) => {
   return {
     status: status,
@@ -12,6 +14,7 @@ export const HttpResponse = (status: string, message: string) => {
   };
 };
 
+// HTTP RESPONSES
 export const CREATED = "Created";
 export const SUCCESS = "Success";
 export const CONFLICT = "Conflict";
@@ -21,6 +24,7 @@ export const UNAUTHORIZED = "Unauthorized";
 export const INTERNAL_SERVER_ERROR = "Internal Server Error";
 export const FORBIDDEN = "Forbidden";
 
+// UPDATE EMAIL MESSAGE
 export const EmailMessage = ({
   changedImage,
   changedFirstName,

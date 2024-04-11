@@ -8,8 +8,8 @@ const userValidation = Joi.object({
     .min(2)
     .regex(/^[A-Za-z\s]+$/)
     .messages({
-      "string.empty": "Name field can't be empty!",
-      "string.min": "Name must be a least 2 character long!",
+      "string.empty": "First name field can't be empty!",
+      "string.min": "First name must be a least 2 character long!",
       "string.pattern.base":
         "First name can't include numbers and special characters!",
     }),
@@ -17,8 +17,8 @@ const userValidation = Joi.object({
     .min(2)
     .regex(/^[A-Za-z\s]+$/)
     .messages({
-      "string.empty": "Name field can't be empty!",
-      "string.min": "Name must be a least 2 character long!",
+      "string.empty": "Last name field can't be empty!",
+      "string.min": "Last name must be a least 2 character long!",
       "string.pattern.base":
         "Last name can't include numbers and special characters!",
     }),

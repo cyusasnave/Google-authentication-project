@@ -19,7 +19,7 @@ app.use(express.json());
 app.use("/api", router);
 app.get("/", (_req, res) => {
   res.send(`
-    <h1>Welcome To Google Authentication Propject</h1>
+    <h1>Welcome To Google Authentication Project</h1>
     <br>
     <a href="/api/auth/google/">Create Account With Google</a>
     <br>

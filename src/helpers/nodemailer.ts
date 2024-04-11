@@ -22,6 +22,7 @@ const sender = nodemailer.createTransport({
   },
 });
 
+// SEND EMAIL FUNCTION
 export function senderEmail({ to, subject, html }: MailOptions) {
   const mailOptions = {
     from: `"${ADMINISTRATOR_NAME}" <${ADMINISTRATOR_EMAIL}>`,

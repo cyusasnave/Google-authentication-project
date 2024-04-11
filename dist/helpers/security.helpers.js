@@ -26,6 +26,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateToken = exports.verifyAccessToken = exports.generateAccessToken = void 0;
 const jsonwebtoken_1 = __importStar(require("jsonwebtoken"));
 const constants_1 = require("./constants");
+const responses_1 = require("../responses");
+// GENERATE TOKEN FUNCTION
 const generateAccessToken = (userData) => {
     const token = jsonwebtoken_1.default.sign(userData, constants_1.JWT_KEY, {
         expiresIn: "1d",
@@ -33,16 +35,17 @@ const generateAccessToken = (userData) => {
     return token;
 };
 exports.generateAccessToken = generateAccessToken;
+// VERIFY TOKEN FUNCTION
 const verifyAccessToken = (token, res) => {
     if (!token || token == null) {
-        return res.status(401).json({
-            status: "Unauthorized",
-            message: "Please login to continue!",
-        });
+        return res
+            .status(401)
+            .json((0, responses_1.HttpResponse)(responses_1.UNAUTHORIZED, "Please login to continue!"));
     }
     return jsonwebtoken_1.default.verify(String(token), constants_1.JWT_KEY);
 };
 exports.verifyAccessToken = verifyAccessToken;
+// VALIDATE TOKEN FUNCTION
 function validateToken(token, secretKey) {
     try {
         if (!token) {

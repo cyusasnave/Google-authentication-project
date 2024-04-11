@@ -13,6 +13,7 @@ interface Result {
   reason?: string;
 }
 
+// GENERATE TOKEN FUNCTION
 export const generateAccessToken = (userData: any) => {
   const token = jwt.sign(userData, JWT_KEY, {
     expiresIn: "1d",
@@ -21,6 +22,7 @@ export const generateAccessToken = (userData: any) => {
   return token;
 };
 
+// VERIFY TOKEN FUNCTION
 export const verifyAccessToken = (token: string, res: Response) => {
   if (!token || token == null) {
     return res
@@ -30,6 +32,7 @@ export const verifyAccessToken = (token: string, res: Response) => {
   return jwt.verify(String(token), JWT_KEY);
 };
 
+// VALIDATE TOKEN FUNCTION
 export function validateToken(
   token: string | undefined,
   secretKey: string

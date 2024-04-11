@@ -22,11 +22,11 @@ const userProfile = (profile) => {
     };
     return user;
 };
-passport_1.default.serializeUser((id, done) => {
-    done(null, id);
+passport_1.default.serializeUser((user, done) => {
+    done(null, user);
 });
-passport_1.default.deserializeUser((id, done) => {
-    done(null, id);
+passport_1.default.deserializeUser((user, done) => {
+    done(null, user);
 });
 passport_1.default.use(new GoogleStrategy({
     clientID: constants_1.GOOGLE_CLIENT_ID,
