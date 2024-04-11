@@ -16,15 +16,16 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.json());
-app.use("/", router);
+app.use("/api", router);
 app.get("/", (_req, res) => {
-  res.send(`<h1>Welcome To Google Authentication Propject</h1>
-  <br>
-  <a href="/users/auth/google/">Create Account With Google</a>
-  <br>
-  <span>Or</span>
-  <br>
-  <a href="/users/auth/google/login">Login With Google</a>
+  res.send(`
+    <h1>Welcome To Google Authentication Propject</h1>
+    <br>
+    <a href="/api/auth/google/">Create Account With Google</a>
+    <br>
+    <span>Or</span>
+    <br>
+    <a href="/api/auth/google/login">Login With Google</a>
   `);
 });
 

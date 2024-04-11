@@ -28,8 +28,17 @@ authRouter.get(
     scope: ["profile", "email"],
   })
 );
-authRouter.get("/users", authController.getAllUsers);
-authRouter.get("/users/:id", authController.getUserById);
+authRouter.get("/users", authentication.isAdmin, authController.getAllUsers);
+authRouter.get(
+  "/users/:id",
+  authentication.isAdmin,
+  authController.getUserById
+);
+authRouter.delete(
+  "/users/:id",
+  authentication.isAdmin,
+  authController.deleteUser
+);
 authRouter.patch(
   "/:id",
   authentication.isAdmin,

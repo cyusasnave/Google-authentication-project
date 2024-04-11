@@ -3,6 +3,6 @@ import authRouter from "./auth.routes";
 
 const router = express.Router();
 
-router.use("/users/auth/google", authRouter);
+router.use("/auth/google", authRouter);
 
 export default router;
