@@ -53,7 +53,7 @@ const handleGoogleAuth = async (req: Request, res: Response) => {
 
         senderEmail({
           to: email,
-          subject: "Account Created",
+          subject: "Account Created || Google Authentication Project",
           html: `
           <div style="padding:20px">
             <p>
@@ -263,7 +263,7 @@ const updateUser = async (req: Request, res: Response) => {
 
       senderEmail({
         to: returnUser?.email as string,
-        subject: "Account Updated",
+        subject: "Account Updated || Google Authentication Project",
         html: EmailMessage({
           changedImage,
           changedFirstName,
@@ -309,7 +309,7 @@ const updateUser = async (req: Request, res: Response) => {
       if (changedFirstName !== false || changedLastName !== false) {
         senderEmail({
           to: returnUser?.email as string,
-          subject: "Account Updated",
+          subject: "Account Updated || Google Authentication Project",
           html: EmailMessage({
             changedFirstName,
             changedLastName,
