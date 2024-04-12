@@ -184,6 +184,12 @@ const getUserById = async (req: Request, res: Response) => {
       .status(400)
       .json(HttpResponse(BAD_REQUEST, "User id not specified!"));
   }
+  const user = await GoogleUserModel.findByPk(userId);
+
+  if (!user) {
+    return res.status(404).json(HttpResponse(NOT_FOUND, "User not found!"));
+  }
+
   try {
     const user = await GoogleUserModel.findOne({
       where: {
@@ -210,6 +216,10 @@ const updateUser = async (req: Request, res: Response) => {
   const userId = req.params.id;
 
   const user = await GoogleUserModel.findByPk(userId);
+
+  if (!user) {
+    return res.status(404).json(HttpResponse(NOT_FOUND, "User not found!"));
+  }
   const returnUser = user?.dataValues;
 
   try {
@@ -335,11 +345,19 @@ const updateUser = async (req: Request, res: Response) => {
 // DELETE USER BY ID LOGIC
 const deleteUser = async (req: Request, res: Response) => {
   const userId = req.params.id;
+
   if (!userId) {
     return res
       .status(400)
       .json(HttpResponse(BAD_REQUEST, "User id not specified!"));
   }
+
+  const user = await GoogleUserModel.findByPk(userId);
+
+  if (!user) {
+    return res.status(404).json(HttpResponse(NOT_FOUND, "User not found!"));
+  }
+  
   try {
     await GoogleUserModel.destroy({ where: { id: userId } });
     res.status(200).json(HttpResponse(SUCCESS, "User deleted successfully!"));
